@@ -190,6 +190,7 @@ var InvoiceForm = function(request, response){
 			}
 
 			var pst = getPST(invoiceId);
+			var state = getState(invoiceId);
 
 			var countLabor = objInvoiceLaborCharge.length;
 			var countMaterial = objInvoiceMaterial.length;
@@ -811,6 +812,11 @@ var InvoiceForm = function(request, response){
 
 			//Include GST
 			totalAmount = parseFloat(subTotalAmount) + parseFloat(taxTotalAmount);
+			
+			//If Manitoba include the pst amount to the total amount 2016.05.19
+			if(pst != 0 && state == 'Manitoba'){
+				totalAmount += parseFloat(pst);
+			}			
 
 			content += "<tr>";
 			content += "	<td></td>";
@@ -831,6 +837,19 @@ var InvoiceForm = function(request, response){
 				content += "	<td align='right' class='totalbg'><span class='thick'>"  + currSign + comma(taxTotalAmount.toFixed(2)) + "</span></td>";
 				content += "</tr>";
 			}
+			
+			if(state == 'Manitoba')
+			{
+				content += "<tr>";
+				content += "	<td></td>";
+				content += "	<td></td>";
+				content += "	<td></td>";
+				content += "	<td></td>";
+				content += "	<td>PST 8%</td>";
+				content += "	<td align='right' class='totalbg'><span class='thick'>"  + currSign + comma(pst.toFixed(2)) + "</span></td>";
+				content += "</tr>";				
+			}
+			
 			content += "<tr>";
 			content += "	<td></td>";
 			content += "	<td></td>";
@@ -840,7 +859,7 @@ var InvoiceForm = function(request, response){
 			content += "	<td align='right' class='totalbgTotal'><span class='thick'>" + currSign + comma(totalAmount.toFixed(2)) + "</span></td>";
 			content += "</tr>";
 
-			if(pst != 0){
+			if(pst != 0 && state != 'Manitoba'){
 				content += "<tr>";
 				content += "	<td colspan='2'></td>";
 				content += "	<td colspan='4' align='right'>*There is "+ currSign + comma(pst.toFixed(2)) + " of PST included in this invoice</td>";
@@ -2248,4 +2267,23 @@ function getNum(val) {
      return 0;
    }
    return val;
+}
+
+var getState = function(invoiceNum)
+{
+	
+	var filters =
+	[
+		new nlobjSearchFilter('tranId', null, 'is', invoiceNum)
+	];
+
+	var s = nlapiSearchRecord('invoice',null, filters, null);
+
+	var invoiceId = s[0].getId();	
+	//shipstate
+	var shipState = nlapiLookupField('transaction', invoiceId, 'shipstate');
+	//billstate
+	var billState = nlapiLookupField('transaction', invoiceId, 'billstate');
+	
+	return shipState;
 }

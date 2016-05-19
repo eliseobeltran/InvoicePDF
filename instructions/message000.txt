@@ -1,0 +1,37 @@
+We noticed that the invoices with PST included on them are not totaling correctly. The totals on the invoice are actually short the PST according to the comment on the bottom of the invoice below the Total. ("There is $ of PST included in this invoice)  But it is actually short that amount if you compare the invoice total in Netsuite. Now, when entering the invoices into Open Invoice after they have been Signed and coded by the Consultants we have an issue since or totals are not matching. Can this be fixed?
+
+Please see attached example: Of the Wrong amount totaled.
+
+The Actual Invoice total is $3,610.05
+
+$1,094.97 no PST Charged on Labour
+
+$2,177.29 PST Charged on Material
+
+$3,272.26
+
+$163.61 GST
+
+$174.18 PST
+
+$3,610.05
+
+
+
+Thanks
+
+
+
+Colette Klein
+Office Administrator - Accounts Receivable
+
+Kandrea Insulation
+5604B - 58 Ave Drayton Valley AB T7A 0B1
+T. 780.542.6847 F.780.542.5957 www.kandrea.ca<http://www.kandrea.ca/>
+
+
+This message and any documents attached here to are intended only for the addressee and may contain privileged or confidential information.
+Any unauthorized disclosure is strictly prohibited. If you have received this message in error, please notify us immediately so that we may correct
+our internal records. Please then delete the original message. Thank you
+
+
